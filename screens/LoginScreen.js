@@ -95,6 +95,7 @@ const LoginScreen = () => {
         </Pressable>
 
         <Pressable
+        onPress={()=>{navigation.navigate('Register')}}
           style={{ marginTop: 15 }}
         >
           <Text style={{ textAlign: "center", color: "gray", fontSize: 16 }}>
