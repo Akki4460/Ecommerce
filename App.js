@@ -18,3 +18,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+
+// 0.0.0.0/0 IP for mongoDB
