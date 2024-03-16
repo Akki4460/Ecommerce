@@ -37,3 +37,6 @@ mongoose.connect(`mongodb+srv://akki10:${password}@clusterlft1.g6q2qdt.mongodb.n
 app.listen(port,()=>{
     console.log("Server is running on 8000")
 });
+
+
+// Endpoint to register in app
