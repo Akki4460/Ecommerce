@@ -22,7 +22,7 @@ const LoginScreen = () => {
       password: password
     }
 
-    axios.post("http://localhost:8000/login", user).then((response) => {
+    axios.post("http://192.168.1.3:8000/login", user).then((response) => {
       console.log(response);
 
       const token = response.data.token
@@ -30,7 +30,7 @@ const LoginScreen = () => {
       // Use of asyncStorage for storing token till login
       AsyncStorage.setItem("authToken", token)
 
-      navigation.replace("Home")
+      navigation.replace("Main")
 
     }).catch((err) => {
       Alert.alert("Login error", "Invalid Email");
