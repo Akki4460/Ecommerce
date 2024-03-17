@@ -24,7 +24,7 @@ const jwt = require("jsonwebtoken");
 // Used because nospecial characters will work
 const password = encodeURIComponent("Akki@9590");
 
-
+// mongodb+srv://akki10:<password>@clusterlft1.g6q2qdt.mongodb.net/
 mongoose.connect(`mongodb+srv://akki10:${password}@clusterlft1.g6q2qdt.mongodb.net/`,{
     // useNewUrlParser:true,
     // useUnifiedTopology:true
@@ -52,8 +52,8 @@ const sendVerificationEmail = async (email,verificationToken) => {
         // Configure the email service
         service:"gmail",
         auth:{
-            user:"akkilapy07@gmail.com",
-            pass:"Akki@727212"
+            user:"ikkaincognito01@gmail.com",
+            pass:"cvasoazcgmuvlxec"
         }
     })
 
@@ -62,12 +62,13 @@ const sendVerificationEmail = async (email,verificationToken) => {
         from:"Lucifer fashion & trends",
         to:email,
         subject:"Email Verification",
-        text:`Please click the following link to verify your email: https://localhost:8000/verify/${verificationToken}`
+        text:`Please click the following link to verify your email: http://localhost:8000/verify/${verificationToken}`
     }
 
     // send the email
     try{
         await transporter.sendMail(mailOptions);
+        console.log("Verification email sent successfully")
     }catch(err){
         console.log("Error sending verification email",err);
     }
@@ -133,5 +134,44 @@ app.get("/verify/:token",async(req,res)=>{
 
     }catch(err){
         res.status(500).json({message:"Email Verification failed"})
+    }
+})
+
+
+// generating secret key for token
+const generateSecretKey = ()=>{
+    const secretKey = crypto.randomBytes(32).toString("hex")
+
+    return secretKey
+}
+const secretKey = generateSecretKey()
+
+
+// Endpoint to login the user!
+app.post("/login", async(req,res)=>{
+    try{
+
+
+        const {email,password}= req.body;
+
+        // Check if user already exists
+        const user = await User.findOne({email})
+        if(!user){
+            return res.status(401).json({message:"email or password not found"})
+        }
+
+        // Check if password is correct
+        if(user.password !== password){
+            return res.status(401).json({message:"Invalid password"})
+        }
+
+        // Generate a token
+        const token = jwt.sign({userId:user._id},secretKey)
+
+        res.status(200).json({token})
+
+
+    }catch(err){
+        res.status(500).json({message:"Login Failes"})
     }
 })
