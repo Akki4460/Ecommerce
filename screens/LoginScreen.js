@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
@@ -15,6 +15,25 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+
+  // Check login status
+  useEffect(()=>{
+    const checkLoginStatus = async () =>{
+      try{
+
+        const token = await AsyncStorage.getItem("authToken")
+
+        if(token){
+          navigation.replace("Main")
+        }
+        
+
+      }catch(err){
+        console.log("Error message",err)
+      }
+    }
+    checkLoginStatus();
+  },[])
 
   const handleLogin = () => {
     const user = {
@@ -126,7 +145,7 @@ const LoginScreen = () => {
           onPress={() => { navigation.navigate('Register') }}
           style={{ marginTop: 15 }}
         >
-          <Text style={{ textAlign: "center", color: "gray", fontSize: 16 }}>
+          <Text style={{ textAlign: "center", color: "grey", fontSize: 16 }}>
             Don't have an account? Sign Up
           </Text>
         </Pressable>
