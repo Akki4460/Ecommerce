@@ -19,17 +19,17 @@ const Tab = createBottomTabNavigator();
 
 function BottomTabs(){
   return(
-    <Tab.Navigator>
+    <Tab.Navigator >
       <Tab.Screen name="Home" component={HomeScreen} 
         options={{
           tabBarLabel: "Home",
-          tabBarLabelStyle:"#525CEB",
+          tabBarLabelStyle:"#a767ff",
           headerShown:false,
           tabBarIcon:({focused})=>
           focused ? (
-            <Foundation name="home" size={24} color="#525CEB" />
+            <Foundation name="home" size={24} color="#a767ff" />
           ) : (
-            <AntDesign name="home" size={24} color="black" />
+            <AntDesign name="home" size={24} color="#a767ff" />
           )
         }}
       />
@@ -40,9 +40,9 @@ function BottomTabs(){
           headerShown:false,
           tabBarIcon:({focused})=>
           focused ? (
-            <FontAwesome name="user" size={24} color="#525CEB" />
+            <FontAwesome name="user" size={24} color="#a767ff" />
           ) : (
-            <FontAwesome name="user-o" size={24} color="black" />
+            <FontAwesome name="user-o" size={24} color="#a767ff" />
           )
         }}
       />
@@ -53,9 +53,9 @@ function BottomTabs(){
           headerShown:false,
           tabBarIcon:({focused})=>
           focused ? (
-            <MaterialCommunityIcons name="shopping" size={24} color="#525CEB" />
+            <MaterialCommunityIcons name="shopping" size={24} color="#a767ff" />
           ) : (
-            <MaterialCommunityIcons name="shopping-outline" size={24} color="black" />
+            <MaterialCommunityIcons name="shopping-outline" size={24} color="#a767ff" />
           )
         }}
       />
