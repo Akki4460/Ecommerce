@@ -12,6 +12,7 @@ import ProductItem from '../components/ProductItem';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 
 const HomeScreen = () => {
@@ -199,6 +200,11 @@ const HomeScreen = () => {
     setCompanyOpen(false);
   }, []);
 
+  // For redux state.storecart.cartRedcucercart
+  const cart = useSelector((state)=>state.cart.cart);
+
+  console.log(cart);
+
   const navigation = useNavigation();
 
   // getting api from fetch store api
@@ -222,7 +228,7 @@ const HomeScreen = () => {
   // or wait for 100ms until orders state updated
   // console.log("products", products)
 
-  console.log("products", products);
+  // console.log("products", products);
   return (
     <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 20 : 0, flex: 1, backgroundColor: "#ffffff" }}>
 
@@ -326,20 +332,20 @@ const HomeScreen = () => {
         >
           {deals.map((item, index) => (
             <Pressable
-              key={index}
+              // key={index}
 
-              // onPress={() =>
-              //   navigation.navigate("Info", {
-              //     id: item.id,
-              //     title: item.title,
-              //     price: item?.price,
-              //     carouselImages: item.carouselImages,
-              //     color: item?.color,
-              //     size: item?.size,
-              //     oldPrice: item?.oldPrice,
-              //     item: item,
-              //   })
-              // }
+              onPress={() =>
+                navigation.navigate("Info", {
+                  id: item.id,
+                  title: item.title,
+                  price: item?.price,
+                  carouselImages: item.carouselImages,
+                  color: item?.color,
+                  size: item?.size,
+                  oldPrice: item?.oldPrice,
+                  item: item,
+                })
+              }
               style={{
                 marginVertical: 10,
                 flexDirection: "row",

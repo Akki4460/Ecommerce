@@ -8,13 +8,15 @@ import {
     ImageBackground,
     Dimensions,
 } from "react-native";
-import React from 'react';
+import React, { useState } from 'react';
 
 
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from "@expo/vector-icons";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/CartReducer";
 
 
 
@@ -26,6 +28,20 @@ const ProductInfoScreen = () => {
     const navigation = useNavigation();
     const height = (width * 100) / 100;
 
+    const [addedToCart, setAddedToCart] = useState(false)
+
+    // for addtoCart functionality
+    const dispatch = useDispatch();
+    const addItemToCart = (item) => {
+        setAddedToCart(true)
+        dispatch(addToCart(item))
+        setTimeout(() => {
+            setAddedToCart(false)
+        }, 60000)
+    }
+
+    const cart = useSelector((state) => state.cart.cart);
+    console.log(cart)
 
     return (
         <ScrollView
@@ -196,7 +212,7 @@ const ProductInfoScreen = () => {
             </Text>
 
             <Pressable
-                // onPress={() => addItemToCart(route?.params?.item)}
+                onPress={() => addItemToCart(route?.params?.item)}
                 style={{
                     backgroundColor: "#a387ff",
                     padding: 10,
@@ -207,13 +223,13 @@ const ProductInfoScreen = () => {
                     marginVertical: 20,
                 }}
             >
-                {/* {addedToCart ? (
+                {addedToCart ? (
                     <View>
-                        <Text>Added to Cart</Text>
+                        <Text style={{ color: "white", fontWeight: "bold" }}>Added to Cart</Text>
                     </View>
-                ) : ( */}
-                    <Text style={{color:"white", fontWeight:"bold"}}>Add to Cart</Text>
-                {/* )} */}
+                ) : (
+                    <Text style={{ color: "white", fontWeight: "bold" }}>Add to Cart</Text>
+                )}
             </Pressable>
 
             <Pressable
@@ -227,7 +243,7 @@ const ProductInfoScreen = () => {
                     marginVertical: 5,
                 }}
             >
-                <Text style={{color:"white", fontWeight:"bold"}}>Buy Now</Text>
+                <Text style={{ color: "white", fontWeight: "bold" }}>Buy Now</Text>
             </Pressable>
 
         </ScrollView>
