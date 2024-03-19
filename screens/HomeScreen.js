@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, Platform, ScrollView, Pressable, TextInput, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -10,6 +10,8 @@ import { SliderBox } from 'react-native-image-slider-box'
 import axios from 'axios'
 import ProductItem from '../components/ProductItem';
 
+import DropDownPicker from 'react-native-dropdown-picker';
+import { useNavigation } from '@react-navigation/native';
 
 
 const HomeScreen = () => {
@@ -183,28 +185,43 @@ const HomeScreen = () => {
     },
   ];
 
-  
+
+  const [open, setOpen] = useState(false);
+  const [category, setCategory] = useState("men's clothing");
+  const [items, setItems] = useState([
+    { label: "Men's clothing", value: "men's clothing" },
+    { label: "jewelery", value: "jewelery" },
+    // { label: "electronics", value: "electronics" },
+    { label: "women's clothing", value: "women's clothing" },
+  ]);
+
+  const onGenderOpen = useCallback(() => {
+    setCompanyOpen(false);
+  }, []);
+
+  const navigation = useNavigation();
+
   // getting api from fetch store api
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-  // Fetching data from fakeproduct api
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("https://fakestoreapi.com/products")
-      setProducts(response.data);
-      
-    } catch (err) {
-      console.log("error message", err)
+    // Fetching data from fakeproduct api
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://fakestoreapi.com/products")
+        setProducts(response.data);
+
+      } catch (err) {
+        console.log("error message", err)
+      }
     }
-  }
 
     fetchData();
   }, []);
-  
+
   // or wait for 100ms until orders state updated
   // console.log("products", products)
-  
+
   console.log("products", products);
   return (
     <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 20 : 0, flex: 1, backgroundColor: "#ffffff" }}>
@@ -215,7 +232,7 @@ const HomeScreen = () => {
           style={{
             backgroundColor: "#a767ff",
             // backgroundColor: "#ff1d58",
-            paddingTop:20,
+            paddingTop: 20,
             padding: 10,
             flexDirection: "row",
             alignItems: "center",
@@ -267,10 +284,10 @@ const HomeScreen = () => {
               {/* <View style={{borderRadius:50, borderColor:'#a767ff', padding:2, borderWidth:1 }}> */}
 
               <Image
-                style={{ width: 50, height: 50, borderRadius:50,  resizeMode: "contain" }}
+                style={{ width: 50, height: 50, borderRadius: 50, resizeMode: "contain" }}
                 source={{ uri: item.image }}
-                />
-                {/* </View> */}
+              />
+              {/* </View> */}
 
               <Text
                 style={{
@@ -355,19 +372,19 @@ const HomeScreen = () => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {offers.map((item, index) => (
             <Pressable
-              key={index}
-              // onPress={() =>
-              //   navigation.navigate("Info", {
-              //     id: item.id,
-              //     title: item.title,
-              //     price: item?.price,
-              //     carouselImages: item.carouselImages,
-              //     color: item?.color,
-              //     size: item?.size,
-              //     oldPrice: item?.oldPrice,
-              //     item: item,
-              //   })
-              // }
+              // key={index}
+              onPress={() =>
+                navigation.navigate("Info", {
+                  id: item.id,
+                  title: item.title,
+                  price: item?.price,
+                  carouselImages: item.carouselImages,
+                  color: item?.color,
+                  size: item?.size,
+                  oldPrice: item?.oldPrice,
+                  item: item,
+                })
+              }
               style={{
                 marginVertical: 10,
                 alignItems: "center",
@@ -414,21 +431,50 @@ const HomeScreen = () => {
           }}
         />
 
+
+        {/*  Dropdown picker for categories to choose */}
+        <View
+            style={{
+              marginHorizontal: 10,
+              marginTop: 20,
+              width: "45%",
+              marginBottom: open ? 50 : 15,
+            }}
+          >
+            <DropDownPicker
+              style={{
+                borderColor: "#B7B7B7",
+                height: 30,
+                marginBottom: open ? 120 : 15,
+              }}
+              open={open}
+              value={category} //genderValue
+              items={items}
+              setOpen={setOpen}
+              setValue={setCategory}
+              setItems={setItems}
+              placeholder="choose category"
+              placeholderStyle={styles.placeholderStyles}
+              onOpen={onGenderOpen}
+              // onChangeValue={onChange}
+              zIndex={3000}
+              zIndexInverse={1000}
+            />
+          </View>
+
         {/* Products from fakestore api */}
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            flexWrap: "wrap",
+            flexWrap: "wrap"
           }}
         >
-          {
-
-            products?.map((item, index) => (
-              <ProductItem item={item} key={index} />
-              // <Text>{item.rate}</Text>
-            ))
-          }
+          {products
+              ?.filter((item) => item.category === category)
+              .map((item, index) => (
+                <ProductItem item={item} key={index} />
+              ))}
         </View>
 
 
