@@ -3,7 +3,7 @@
 
 
 const express = require("express");
-const bodyParser =  require("body-parser");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
@@ -13,7 +13,7 @@ const port = 8000;
 const cors = require("cors");
 app.use(cors());
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const jwt = require("jsonwebtoken");
@@ -25,16 +25,16 @@ const jwt = require("jsonwebtoken");
 const password = encodeURIComponent("Akki@9590");
 
 // mongodb+srv://akki10:<password>@clusterlft1.g6q2qdt.mongodb.net/
-mongoose.connect(`mongodb+srv://akki10:${password}@clusterlft1.g6q2qdt.mongodb.net/`,{
+mongoose.connect(`mongodb+srv://akki10:${password}@clusterlft1.g6q2qdt.mongodb.net/`, {
     // useNewUrlParser:true,
     // useUnifiedTopology:true
-}).then(()=>{
+}).then(() => {
     console.log("Connected to MongoDB")
-}).catch((err)=>{
-    console.log("Error connecting to MongoDB",err)
+}).catch((err) => {
+    console.log("Error connecting to MongoDB", err)
 });
 
-app.listen(port,()=>{
+app.listen(port, () => {
     console.log("Server is running on 8000")
 });
 
@@ -44,33 +44,33 @@ const Order = require("./models/order")
 
 
 // Function to send verification email to user
-const sendVerificationEmail = async (email,verificationToken) => {
+const sendVerificationEmail = async (email, verificationToken) => {
 
     // Create a nodemailer to transport
     const transporter = nodemailer.createTransport({
 
         // Configure the email service
-        service:"gmail",
-        auth:{
-            user:"ikkaincognito01@gmail.com",
-            pass:"cvasoazcgmuvlxec"
+        service: "gmail",
+        auth: {
+            user: "ikkaincognito01@gmail.com",
+            pass: "cvasoazcgmuvlxec"
         }
     })
 
     // Compose the email message
-    const mailOptions={
-        from:"Lucifer fashion & trends",
-        to:email,
-        subject:"Email Verification",
-        text:`Please click the following link to verify your email: http://192.168.1.3:8000/verify/${verificationToken}`
+    const mailOptions = {
+        from: "Lucifer fashion & trends",
+        to: email,
+        subject: "Email Verification",
+        text: `Please click the following link to verify your email: http://192.168.1.3:8000/verify/${verificationToken}`
     }
 
     // send the email
-    try{
+    try {
         await transporter.sendMail(mailOptions);
         console.log("Verification email sent successfully")
-    }catch(err){
-        console.log("Error sending verification email",err);
+    } catch (err) {
+        console.log("Error sending verification email", err);
     }
 }
 
@@ -78,19 +78,19 @@ const sendVerificationEmail = async (email,verificationToken) => {
 
 
 // Endpoint to register in app
-app.post("/register",async(req,res)=>{
-    try{
+app.post("/register", async (req, res) => {
+    try {
 
-        const {name,email,password} = req.body;
+        const { name, email, password } = req.body;
 
         // Check if email already exists
-        const existingUser = await User.findOne({email});
-        if(existingUser){
-            return res.status(400).json({message:"Email already registered"});
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email already registered" });
         }
 
         // Create new user
-        const newUser = new User({name,email,password});
+        const newUser = new User({ name, email, password });
 
 
         // Generate and store verification token
@@ -104,42 +104,42 @@ app.post("/register",async(req,res)=>{
         // Send verification mail to user
         sendVerificationEmail(newUser.email, newUser.verificationToken);
 
-    }catch(err){
-        console.log("Error registering user",err);
-        res.status(500).json({message:"Registration failed"})
+    } catch (err) {
+        console.log("Error registering user", err);
+        res.status(500).json({ message: "Registration failed" })
     }
 })
 
 
 // Endpoint to verify the email
-app.get("/verify/:token",async(req,res)=>{
-    try{
-        
+app.get("/verify/:token", async (req, res) => {
+    try {
+
         const token = req.params.token
 
 
         // Find user with given verification token
-        const user = await User.findOne({verificationToken: token});
-        if(!User){
-            return res.status(400).json({message:"Invalid verification token"})
+        const user = await User.findOne({ verificationToken: token });
+        if (!User) {
+            return res.status(400).json({ message: "Invalid verification token" })
         }
 
         // Mark the user that verified
-        user.verified=true;
-        user.verificationToken=undefined;
+        user.verified = true;
+        user.verificationToken = undefined;
 
         await user.save();
 
-        res.status(200).json({message:"Email verified successfully"})
+        res.status(200).json({ message: "Email verified successfully" })
 
-    }catch(err){
-        res.status(500).json({message:"Email Verification failed"})
+    } catch (err) {
+        res.status(500).json({ message: "Email Verification failed" })
     }
 })
 
 
 // generating secret key for token
-const generateSecretKey = ()=>{
+const generateSecretKey = () => {
     const secretKey = crypto.randomBytes(32).toString("hex")
 
     return secretKey
@@ -148,30 +148,69 @@ const secretKey = generateSecretKey()
 
 
 // Endpoint to login the user!
-app.post("/login", async(req,res)=>{
-    try{
+app.post("/login", async (req, res) => {
+    try {
 
 
-        const {email,password}= req.body;
+        const { email, password } = req.body;
 
         // Check if user already exists
-        const user = await User.findOne({email})
-        if(!user){
-            return res.status(401).json({message:"email or password not found"})
+        const user = await User.findOne({ email })
+        if (!user) {
+            return res.status(401).json({ message: "email or password not found" })
         }
 
         // Check if password is correct
-        if(user.password !== password){
-            return res.status(401).json({message:"Invalid password"})
+        if (user.password !== password) {
+            return res.status(401).json({ message: "Invalid password" })
         }
 
         // Generate a token
-        const token = jwt.sign({userId:user._id},secretKey)
+        const token = jwt.sign({ userId: user._id }, secretKey)
 
-        res.status(200).json({token})
+        res.status(200).json({ token })
 
 
-    }catch(err){
-        res.status(500).json({message:"Login Failes"})
+    } catch (err) {
+        res.status(500).json({ message: "Login Failes" })
     }
 })
+
+// Endpoint to store new address to backend
+app.post("/addresses", async (req, res) => {
+    try {
+        const { userId, address } = req.body;
+
+        // find the user by Userid
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" })
+        }
+        // Add the new address to the user's addresses array
+        user.addresses.push(address);
+
+        // save the updated user in the backend
+        await user.save();
+
+        res.status(200).json({ message: "Adress created successfully" });
+    } catch (err) {
+        res.status(500).json({ message: "Error adding address" });
+    }
+})
+
+//Endpoint to get all the addresses of a particular user
+app.get("/addresses/:userId", async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      const addresses = user.addresses;
+      res.status(200).json({ addresses });
+    } catch (error) {
+      res.status(500).json({ message: "Error retrieveing the addresses" });
+    }
+  });

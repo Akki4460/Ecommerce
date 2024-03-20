@@ -12,6 +12,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import ProductInfoScreen from '../screens/ProductInfoScreen';
+import AddAddressScreen from '../screens/AddAddressScreen';
+import AddressScreen from '../screens/AddressScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -74,6 +76,8 @@ const StackNavigation = () => {
         <Stack.Screen name="Main" component={BottomTabs} options={{headerShown:false}}/>
         {/* <Stack.Screen name="Main" component={HomeScreen} options={{headerShown:false}}/> */}
         <Stack.Screen name="Info" component={ProductInfoScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Address" component={AddAddressScreen} options={{headerShown:false}}/>
+        <Stack.Screen name="Add" component={AddressScreen} options={{headerShown:false}}/>
 
       </Stack.Navigator>
     </NavigationContainer>
