@@ -7,7 +7,7 @@ import {
   ScrollView,
   Pressable,
   TextInput,
-  Image,
+  Image
 } from "react-native";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { Feather } from "@expo/vector-icons";
@@ -25,7 +25,9 @@ import { BottomModal, SlideAnimation, ModalContent } from "react-native-modals";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserType } from "../UserContext";
 
-import { jwtDecode } from "jwt-decode";
+import jwt_decode from "jwt-decode";
+
+
 
 
 const HomeScreen = () => {
@@ -255,7 +257,7 @@ const HomeScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.3:8000/addresses/${userId}`
+        `http://192.168.1.10:8000/addresses/${userId}`
       );
       const { addresses } = response.data;
 
@@ -269,7 +271,8 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = await AsyncStorage.getItem("authToken");
-      const decodedToken = jwtDecode(token);
+      // const decodedToken = jwt_decode(token);
+      const decodedToken = jwt_decode(token);
       const userId = decodedToken.userId;
       setUserId(userId)
     }
@@ -284,7 +287,7 @@ const HomeScreen = () => {
   return (
     <>
 
-      <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 20 : 0, flex: 1, backgroundColor: "#ffffff" }}>
+      <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 22 : 0, flex: 1, backgroundColor: "#ffffff" }}>
 
         <ScrollView>
           {/* Search Bar */}
@@ -395,7 +398,7 @@ const HomeScreen = () => {
           >
             {deals.map((item, index) => (
               <Pressable
-                // key={index}
+                key={index}
 
                 onPress={() =>
                   navigation.navigate("Info", {
@@ -441,7 +444,7 @@ const HomeScreen = () => {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {offers.map((item, index) => (
               <Pressable
-                // key={index}
+                key={index}
                 onPress={() =>
                   navigation.navigate("Info", {
                     id: item.id,
@@ -502,6 +505,8 @@ const HomeScreen = () => {
 
 
           {/*  Dropdown picker for categories to choose */}
+
+
           <View
             style={{
               marginHorizontal: 10,
@@ -510,6 +515,7 @@ const HomeScreen = () => {
               marginBottom: open ? 50 : 15,
             }}
           >
+
             <DropDownPicker
               style={{
                 borderColor: "#B7B7B7",
@@ -545,7 +551,6 @@ const HomeScreen = () => {
                 <ProductItem item={item} key={index} />
               ))}
           </View>
-
 
         </ScrollView>
       </SafeAreaView>
