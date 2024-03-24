@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View, Pressable, TextInput, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Feather, AntDesign } from "@expo/vector-icons";
 
@@ -20,17 +20,25 @@ const CartScreen = () => {
         ?.map((item) => item.price * item.quantity)
         .reduce((curr, prev) => curr + prev, 0);
 
-        const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-        const increaseQuantity = (item) =>{
-            dispatch(incrementQuantity(item));
-        };
-        const decreaseQuantity = (item) => {
-            dispatch(decrementQuantity(item));
-          };
-          const deleteItem = (item) => {
-            dispatch(removeFromCart(item));
-          };
+    const increaseQuantity = (item) => {
+        dispatch(incrementQuantity(item));
+    };
+    const decreaseQuantity = (item) => {
+        dispatch(decrementQuantity(item));
+    };
+    const deleteItem = (item) => {
+        dispatch(removeFromCart(item));
+    };
+
+    
+    // const [disabled, setDisabled] = useState(false);
+
+    // const handleConfirm = () => {
+    //     setDisabled(!disabled);
+    // };
+
 
     return (
         <ScrollView style={{ marginTop: 22, flex: 1, backgroundColor: 'white' }}>
@@ -70,10 +78,10 @@ const CartScreen = () => {
             <Text style={{ marginHorizontal: 10 }}>EMI details Available</Text>
 
             <Pressable
-                onPress={() => navigation.navigate("Confirm")}
-                disabled={cart?.length > 0 ? true:false}
+                onPress={()=> navigation.navigate('Confirm')}
+                // disabled={setDisabeld(!disabeld)}
                 style={{
-                    opacity:cart?.length > 0 ? 1:0.5,
+                    opacity: cart?.length > 0 ? 1 : 0.5,
                     backgroundColor: "#FFC72C",
                     padding: 10,
                     borderRadius: 5,
