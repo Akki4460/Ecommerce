@@ -8,6 +8,12 @@ const mongoose = require("mongoose");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
+// import { useState, useContext } from "react";
+// import { IpType } from "../IpContext";
+
+
+// const {ip,setIp} = useState(IpType);
+
 const app = express();
 const port = 8000;
 const cors = require("cors");
@@ -17,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const jwt = require("jsonwebtoken");
+
+
 
 
 // mongodb+srv://akki10:<password>@clusterlft1.g6q2qdt.mongodb.net/
@@ -62,7 +70,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         from: "Lucifer fashion & trends",
         to: email,
         subject: "Email Verification",
-        text: `Please click the following link to verify your email: http://192.168.1.10:8000/verify/${verificationToken}`
+        text: `Please click the following link to verify your email: http://192.168.1.6:8000/verify/${verificationToken}`
     }
 
     // send the email

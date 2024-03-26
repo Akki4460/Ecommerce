@@ -13,11 +13,13 @@ import { Entypo } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { UserType } from "../UserContext";
+import { IpType } from "../IpContext";
 
 const AddAddressScreen = () => {
     const navigation = useNavigation();
     const [addresses, setAddresses] = useState([]);
     const { userId, setUserId } = useContext(UserType);
+    const { ip,setIp } = useContext(IpType);
     console.log("userId", userId);
     useEffect(() => {
         fetchAddresses();
@@ -25,7 +27,7 @@ const AddAddressScreen = () => {
     const fetchAddresses = async () => {
         try {
             const response = await axios.get(
-                `http://192.168.1.10:8000/addresses/${userId}`
+                `http://${ip}:8000/addresses/${userId}`
             );
             const { addresses } = response.data;
 

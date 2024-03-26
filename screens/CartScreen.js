@@ -41,7 +41,7 @@ const CartScreen = () => {
 
 
     return (
-        <ScrollView style={{ marginTop: 22, flex: 1, backgroundColor: 'white' }}>
+        <ScrollView style={{ marginTop: 0, flex: 1, backgroundColor: 'white' }}>
             <View
                 style={{
                     backgroundColor: "#a767ff",

@@ -15,6 +15,7 @@ import jwt_decode from "jwt-decode";
 import { UserType } from "../UserContext";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { IpType } from "../IpContext";
 
 const AddressScreen = () => {
   const navigation = useNavigation();
@@ -27,6 +28,7 @@ const AddressScreen = () => {
   const [postalCode, setPostalCode] = useState("");
 
   const { userId, setUserId } = useContext(UserType)
+  const { ip,setIp } = useContext(IpType)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -49,7 +51,7 @@ const AddressScreen = () => {
       postalCode
     }
 
-    axios.post("http://192.168.1.10:8000/addresses", { userId, address }).then((response) => {
+    axios.post(`http://${ip}:8000/addresses`, { userId, address }).then((response) => {
       Alert.alert("Success", "Addresses added successfully");
       setName("");
       setMobileNo("");

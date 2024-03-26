@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
@@ -8,8 +8,11 @@ import { FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 import axios from "axios"
+import { IpType } from '../IpContext';
 
 const RegisterScreen = () => {
+
+    const {ip, setIp} = useContext(IpType)
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -25,7 +28,7 @@ const RegisterScreen = () => {
         }
 
         // Send a post request to backend API
-        axios.post("http://192.168.1.10:8000/register",user).then((response) =>{
+        axios.post(`http://${ip}:8000/register`,user).then((response) =>{
             console.log("Registration successful");
             console.log(response);
           

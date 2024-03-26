@@ -26,6 +26,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { UserType } from "../UserContext";
 
 import jwt_decode from "jwt-decode";
+import { IpType } from "../IpContext";
 
 
 
@@ -201,6 +202,8 @@ const HomeScreen = () => {
     },
   ];
 
+  const {ip,setIp} = useContext(IpType)
+
   const [modalVisible, setModalVisible] = useState(false);
   const { userId, setUserId } = useContext(UserType);
   const [addresses, setAddresses] = useState([]);
@@ -257,7 +260,7 @@ const HomeScreen = () => {
   const fetchAddresses = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.10:8000/addresses/${userId}`
+        `http://${ip}:8000/addresses/${userId}`
       );
       const { addresses } = response.data;
 
@@ -287,7 +290,7 @@ const HomeScreen = () => {
   return (
     <>
 
-      <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 22 : 0, flex: 1, backgroundColor: "#ffffff" }}>
+      <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 0 : 0, flex: 1, backgroundColor: "#ffffff" }}>
 
         <ScrollView>
           {/* Search Bar */}

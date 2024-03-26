@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Fontisto } from '@expo/vector-icons';
@@ -8,11 +8,15 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import axios from 'axios';
+import { IpType } from '../IpContext';
 
 const LoginScreen = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { ip, setIp } = useContext(IpType);
+
 
   const navigation = useNavigation();
 
@@ -41,7 +45,7 @@ const LoginScreen = () => {
       password: password
     }
 
-    axios.post("http://192.168.1.10:8000/login", user).then((response) => {
+    axios.post(`http://${ip}:8000/login`, user).then((response) => {
       console.log(response);
 
       const token = response.data.token

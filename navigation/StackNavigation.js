@@ -44,7 +44,7 @@ function BottomTabs(){
         options={{
           tabBarLabel: "Profile",
           tabBarLabelStyle:"#525CEB",
-          headerShown:false,
+          // headerShown:false,
           tabBarIcon:({focused})=>
           focused ? (
             <FontAwesome name="user" size={24} color="#a767ff" />
