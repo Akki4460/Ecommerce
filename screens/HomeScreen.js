@@ -82,8 +82,8 @@ const HomeScreen = () => {
       image:
         "https://m.media-amazon.com/images/I/41PeyJvD7UL._SX679_.jpg",
       carouselImages: [
-        "https://m.media-amazon.com/images/I/61QRgOgBx0L._SX679_.jpg",
-        "https://m.media-amazon.com/images/I/61uaJPLIdML._SX679_.jpg",
+        "https://m.media-amazon.com/images/I/41XZPj6tXcL._SX679_.jpg",
+        "https://m.media-amazon.com/images//61uaJPLIdML._SX679_.jpg",
         "https://m.media-amazon.com/images/I/510YZx4v3wL._SX679_.jpg",
         "https://m.media-amazon.com/images/I/61J6s1tkwpL._SX679_.jpg",
       ],
