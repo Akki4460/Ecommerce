@@ -100,36 +100,125 @@ const ProfileScreen = () => {
 
 
   const [invoiceData, setInvoiceData] = useState(null); // State to hold the invoice data
+  const [userData, setUserData] = useState(null); // State to hold the user data
 
 
   useEffect(() => {
     generateInvoiceData(); // Generate invoice data when component mounts
+    // generateUserDataHtml();
   }, []);
+
+  // Add a state to hold the HTML content for the user data
+const [userDataHtml, setUserDataHtml] = useState('');
+
+// Function to generate HTML content for the user data
+// Function to generate HTML content for the user data
+const generateUserDataHtml = (userData) => {
+  return `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>User Account</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          margin: 0;
+          padding: 0;
+        }
+        
+        .user-info {
+          max-width: 600px;
+          margin: 20px auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+          font-size: 24px;
+          margin-bottom: 10px;
+        }
+        
+        p {
+          margin: 0;
+        }
+        
+        ul {
+          padding: 0;
+          margin: 10px 0;
+          list-style-type: none;
+        }
+        
+        li {
+          padding: 10px;
+          margin-bottom: 10px;
+          background: #f9f9f9;
+          border-radius: 5px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="user-info">
+        <h1>User Account Information</h1>
+        <p>Name: ${userData.name}</p>
+        <p>Email: ${userData.email}</p>
+        <p>Addresses:</p>
+        <ul>
+          ${userData.addresses.map((address, index) => `
+            <li key=${index}>
+              <p><strong>House No:</strong> ${address.houseNo}</p>
+              <p><strong>Street:</strong> ${address.street}</p>
+              <p><strong>Landmark:</strong> ${address.landmark}</p>
+              <p><strong>Postal Code:</strong> ${address.postalCode}</p>
+              <p><strong>Mobile No:</strong> ${address.mobileNo}</p>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+    </body>
+    </html>`;
+};
+
+// Function to handle printing user account information
+const handlePrintUserData = async () => {
+  try {
+    if (user) {
+      const html = generateUserDataHtml(user); // Generate HTML content for the user data
+      console.log("Printing user data...");
+
+      // Print the user data to a file
+      const file = await printToFileAsync({
+        html: html,
+        base64: false
+      });
+
+      // Share the printed user data
+      await shareAsync(file.uri);
+    }
+  } catch (error) {
+    console.log("Error printing user data:", error);
+  }
+};
 
   const generateInvoiceData = async () => {
     try {
-      // const response = await axios.get(`http://${ip}:8000/orders/${userId}`);
-      const response = await axios.get(
-        `http://${ip}:8000/orders/${userId}`
-      );
-      // const addresses = response.data;
+      const response = await axios.get(`http://${ip}:8000/orders/${userId}`);
+     
       const orders = response.data.orders;
-      setOrders(orders);
 
+      setOrders(orders);
+      
       setLoading(false);
-      // const selectedAddresss = addresses[addresses.length()-1]; // Assuming the first address is selected
 
       // Constructing invoice data object
-      var count = 0;
+      // var count = 0;
       const invoiceData = {
-        // invoiceNumber: "INVO",
         invoiceDate: `${new Date().toLocaleDateString("de-DE")}`,
         billingCompany: "LFT",
-        count: parseInt(count+1),
-        // billingAddress: "111 Pine Street, Suite 1815, San Francisco, CA, 94111",
-        // billingPhone: "(123) 123-1232",
-        // billingEmail: "John@example.com",
-
+        // count: parseInt(count+1),
         cartItems: orders.map((item) => ({
           products: item.products.map((product) => ({
             description: product.name.substring(0, 30) + '...',
@@ -149,6 +238,7 @@ const ProfileScreen = () => {
       console.log("Error fetching invoice data:", error);
     }
   };
+  
   const handlePrintAndShare = async () => {
     try {
       if (invoiceData) {
@@ -367,6 +457,7 @@ const ProfileScreen = () => {
         </Pressable>
 
         <Pressable
+          onPress={handlePrintUserData}
           style={{
             padding: 10,
             backgroundColor: "#E0E0E0",

@@ -289,7 +289,6 @@ const HomeScreen = () => {
 
   return (
     <>
-
       <SafeAreaView style={{ paddingTop: Platform.OS === "android" ? 0 : 0, flex: 1, backgroundColor: "#ffffff" }}>
 
         <ScrollView>

@@ -4,7 +4,7 @@ const IpType =createContext();
 
 const IpContext = ({children}) => {
 
-    const [ip, setIp] = useState("192.168.1.11");
+    const [ip, setIp] = useState("172.16.129.115");
     return(
         <IpType.Provider value={{ip,setIp}}>
             {children}
