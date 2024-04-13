@@ -112,7 +112,6 @@ const ProfileScreen = () => {
 const [userDataHtml, setUserDataHtml] = useState('');
 
 // Function to generate HTML content for the user data
-// Function to generate HTML content for the user data
 const generateUserDataHtml = (userData) => {
   return `<!DOCTYPE html>
     <html lang="en">

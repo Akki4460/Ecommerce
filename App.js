@@ -6,7 +6,8 @@ import store from './store';
 import { ModalPortal } from 'react-native-modals';
 import { UserContext } from './UserContext';
 import { IpContext } from './IpContext';
-
+// import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler' from '';
 
 export default function App() {
   return (

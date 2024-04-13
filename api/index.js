@@ -70,7 +70,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         from: "Lucifer fashion & trends",
         to: email,
         subject: "Email Verification",
-        text: `Please click the following link to verify your email: http://172.16.129.115:8000/verify/${verificationToken}`
+        text: `Please click the following link to verify your email: http://192.168.1.9:8000/verify/${verificationToken}`
     }
 
     // send the email
