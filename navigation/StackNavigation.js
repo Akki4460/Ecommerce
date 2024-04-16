@@ -80,7 +80,7 @@ function MyDrawer() {
       drawerActiveTintColor:'white'
     }}
     >
-      <Drawer.Screen name="Dashboard" component={AdminDashboardScreen} options={{ headerStyle: { backgroundColor: '#FFC700' }, headerTintColor: '#fff' }} />
+      <Drawer.Screen name="Dashboard" component={AdminDashboardScreen} options={{ headerStyle: { backgroundColor: '#f0f0f0' }, headerTintColor: 'black' }} />
       <Drawer.Screen name="Reports" component={AdminReportScreen} options={{ headerStyle: { backgroundColor: '#FFC700' }, headerTintColor: '#fff' }}/>
       {/* <Drawer.Screen name="Article" component={Article} /> */}
     </Drawer.Navigator>

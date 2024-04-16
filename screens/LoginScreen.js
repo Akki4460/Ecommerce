@@ -27,8 +27,14 @@ const LoginScreen = () => {
         
 
         const token = await AsyncStorage.getItem("authToken")
-        if(token){
-          navigation.replace("Main")
+        const userEmail = await AsyncStorage.getItem("userEmail");
+
+        if (token && userEmail) {
+          if (userEmail === "akkibhosale4460@gmail.com") {
+            navigation.replace("Admin");
+          } else {
+            navigation.replace("Main");
+          }
         }
         
 
@@ -52,6 +58,8 @@ const LoginScreen = () => {
 
       // Use of asyncStorage for storing token till login
       AsyncStorage.setItem("authToken", token)
+      AsyncStorage.setItem("userEmail", user.email);
+
 
       //  CHANGE THIS EMAIL AFTER REGISTERING ADMIN TO CREATE AND ACCESS YOUR ADMIN
       if(user.email == "akkibhosale4460@gmail.com"){

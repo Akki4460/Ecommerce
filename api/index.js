@@ -295,3 +295,52 @@ app.get("/profile/:userId", async (req, res) => {
     }
   })
   
+
+  // Endpoint to get all users
+app.get("/users", async (req, res) => {
+  try {
+      const users = await User.find({});
+      res.status(200).json({ users });
+  } catch (error) {
+      res.status(500).json({ message: "Error retrieving users" });
+  }
+});
+
+// Endpoint to get all orders
+app.get("/orders", async (req, res) => {
+  try {
+      const orders = await Order.find({});
+      res.status(200).json({ orders });
+  } catch (error) {
+      res.status(500).json({ message: "Error retrieving orders" });
+  }
+});
+
+// Endpoint to get orders for a specific month and year
+app.get("/orders/:year/:month", async (req, res) => {
+  try {
+      const { year, month } = req.params;
+      let startDate, endDate;
+
+      if (month === "all") {
+          // If month is "all", fetch orders for the entire year
+          startDate = new Date(year, 0, 1); // January 1st of the specified year
+          endDate = new Date(year, 11, 31); // December 31st of the specified year
+      } else {
+          // Otherwise, fetch orders for the specific month and year
+          startDate = new Date(year, month - 1, 1); // Month in JavaScript starts from 0 (January is 0)
+          endDate = new Date(year, month, 0);
+      }
+
+      const orders = await Order.find({
+          createdAt: { $gte: startDate, $lte: endDate }
+      });
+      
+      res.status(200).json({ orders });
+  } catch (error) {
+      res.status(500).json({ message: "Error retrieving orders" });
+  }
+});
+
+
+
