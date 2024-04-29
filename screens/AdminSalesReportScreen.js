@@ -1,15 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity, Platform, Button, Alert, Image, Modal, Pressable } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Alert, Image, Modal, Pressable } from 'react-native'
 import { React, useState, useContext, Pick } from 'react'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import { IpType } from '../IpContext';
 
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import Picker from 'react-native-dropdown-picker'
 import { ScrollView } from 'react-native-gesture-handler';
 
-const AdminReportScreen = () => {
+const AdminSalesReportScreen = () => {
 
 
   const { ip, setIp } = useContext(IpType);
@@ -24,32 +22,6 @@ const AdminReportScreen = () => {
 
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [showYearPicker, setShowYearPicker] = useState(false);
-
-
-
-
-
-  // const handleStartDateChange = (event, date) => {
-  //   setShowStartDatePicker(false);
-  //   if (date !== undefined) {
-  //     if (date <= endDate) {
-  //       setStartDate(date);
-  //     } else {
-  //       Alert.alert('Invalid Date', 'Start date cannot be greater than end date');
-  //     }
-  //   }
-  // };
-
-  // const handleEndDateChange = (event, date) => {
-  //   setShowEndDatePicker(false);
-  //   if (date !== undefined) {
-  //     if (date >= startDate) {
-  //       setEndDate(date);
-  //     } else {
-  //       Alert.alert('Invalid Date', 'End date cannot be less than start date');
-  //     }
-  //   }
-  // };
 
   const generateReport = async () => {
     try {
@@ -77,226 +49,6 @@ const AdminReportScreen = () => {
   };
 
   // Function to generate HTML content for the report
-
-  // const generateHtml = (data) => {
-  //   return `<!DOCTYPE html>
-  //     <html lang="en">
-  //     <head>
-  //       <meta charset="UTF-8">
-  //       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //       <title>Sample Report</title>
-  //       <style>
-  //         body {
-  //           font-family: sans-serif;
-  //           margin: 0;
-  //           padding: 0;
-  //         }
-
-  //         .report-container {
-  //           width: 80%;
-  //           margin: auto;
-  //           padding: 30px;
-  //           border: 1px solid #ddd;
-  //           border-radius: 4px;
-  //         }
-
-  //         .report-header {
-  //           display: flex;
-  //           justify-content: space-between;
-  //           margin-bottom: 30px;
-  //         }
-
-  //         .report-logo {
-  //           width: 200px;
-  //         }
-
-  //         .report-info {
-  //           text-align: right;
-  //         }
-
-  //         .report-info h1,
-  //         .report-info p {
-  //           margin: 0;
-  //         }
-
-  //         .order-details {
-  //           width: 100%;
-  //         }
-
-  //         table {
-  //           width: 100%;
-  //           border-collapse: collapse;
-  //         }
-
-  //         th,
-  //         td {
-  //           padding: 8px;
-  //           border: 1px solid #ddd;
-  //         }
-
-  //         th {
-  //           background-color: #f2f2f2;
-  //         }
-
-  //         .order-details tr:nth-child(even) {
-  //           background-color: #f9f9f9;
-  //         }
-  //       </style>
-  //     </head>
-  //     <body>
-  //       <div class="report-container">
-  //         <div class="report-header">
-  //           <div class="report-logo">
-  //             <h1>Company Logo</h1>
-  //           </div>
-  //           <div class="report-info">
-  //             <h1>Report</h1>
-  //             <p>Date: ${new Date().toLocaleDateString()}</p>
-  //           </div>
-  //         </div>
-
-  //         <div class="order-details">
-  //           <table>
-  //             <thead>
-  //               <tr>
-  //                 <th>Order ID</th>
-  //                 <th>Product</th>
-  //                 <th>Quantity</th>
-  //                 <th>Price</th>
-  //                 <th>Total</th>
-  //                 <th>Date</th>
-  //               </tr>
-  //             </thead>
-  //             <tbody>
-  //               ${data.map((order, index) => `
-  //                 <tr key=${index}>
-  //                   <td>${order._id}</td>
-  //                   <td>${order.products[0].name}</td>
-  //                   <td>${order.products[0].quantity}</td>
-  //                   <td>${order.products[0].price}</td>
-  //                   <td>${order.totalPrice}</td>
-  //                   <td>${new Date(order.createdAt).toLocaleDateString()}</td>
-  //                 </tr>
-  //               `).join('')}
-  //             </tbody>
-  //           </table>
-  //         </div>
-  //       </div>
-  //     </body>
-  //     </html>`;
-  // };
-
-  // const generateHtml = (data) => {
-  //   return `<!DOCTYPE html>
-  //     <html lang="en">
-  //     <head>
-  //       <meta charset="UTF-8">
-  //       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //       <title>Sample Report</title>
-  //       <style>
-  //         body {
-  //           font-family: sans-serif;
-  //           margin: 0;
-  //           padding: 0;
-  //         }
-
-  //         .report-container {
-  //           width: 80%;
-  //           margin: auto;
-  //           padding: 30px;
-  //           border: 1px solid #ddd;
-  //           border-radius: 4px;
-  //         }
-
-  //         .report-header {
-  //           display: flex;
-  //           justify-content: space-between;
-  //           margin-bottom: 30px;
-  //         }
-
-  //         .report-logo {
-  //           width: 200px;
-  //         }
-
-  //         .report-info {
-  //           text-align: right;
-  //         }
-
-  //         .report-info h1,
-  //         .report-info p {
-  //           margin: 0;
-  //         }
-
-  //         .order-details {
-  //           width: 100%;
-  //         }
-
-  //         table {
-  //           width: 100%;
-  //           border-collapse: collapse;
-  //         }
-
-  //         th,
-  //         td {
-  //           padding: 8px;
-  //           border: 1px solid #ddd;
-  //         }
-
-  //         th {
-  //           background-color: #f2f2f2;
-  //         }
-
-  //         .order-details tr:nth-child(even) {
-  //           background-color: #f9f9f9;
-  //         }
-  //       </style>
-  //     </head>
-  //     <body>
-  //       <div class="report-container">
-  //         <div class="report-header">
-  //           <div class="report-logo">
-  //             <h1>Company Logo</h1>
-  //           </div>
-  //           <div class="report-info">
-  //             <h1>Report</h1>
-  //             <p>Date: ${new Date().toLocaleDateString()}</p>
-  //           </div>
-  //         </div>
-
-  //         <div class="order-details">
-  //           <table>
-  //             <thead>
-  //               <tr>
-  //                 <th>Order ID</th>
-  //                 <th>Product</th>
-  //                 <th>Quantity</th>
-  //                 <th>Price</th>
-  //                 <th>Total</th>
-  //                 <th>Date</th>
-  //               </tr>
-  //             </thead>
-  //             <tbody>
-  //               ${data.map((order, index) => {
-  //     return order.products.map((product, productIndex) => {
-  //       return `
-  //                     <tr key=${index}-${productIndex}>
-  //                       <td>${order._id}</td>
-  //                       <td>${product.name}</td>
-  //                       <td>${product.quantity}</td>
-  //                       <td>${product.price}</td>
-  //                       <td>${order.totalPrice}</td>
-  //                       <td>${new Date(order.createdAt).toLocaleDateString()}</td>
-  //                     </tr>
-  //                   `;
-  //     }).join('');
-  //   }).join('')}
-  //             </tbody>
-  //           </table>
-  //         </div>
-  //       </div>
-  //     </body>
-  //     </html>`;
-  // };
 
   const generateHtml = (data) => {
     return `<!DOCTYPE html>
@@ -367,10 +119,10 @@ const AdminReportScreen = () => {
         <div class="report-container">
           <div class="report-header">
             <div class="report-logo">
-              <h1>Company Logo</h1>
+              <h1>Lucifer</h1>
             </div>
             <div class="report-info">
-              <h1>Report</h1>
+              <h1>Sales Report</h1>
               <p>Date: ${new Date().toLocaleDateString()}</p>
             </div>
           </div>
@@ -455,7 +207,7 @@ const AdminReportScreen = () => {
             </TouchableOpacity>
             <Modal visible={showMonthPicker} animationType="slide">
               <View style={styles.modalContainer}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(month => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, "all"].map(month => (
                   <TouchableOpacity key={month} style={styles.modalItem} onPress={() => handleMonthSelect(month)}>
                     <Text>{month}</Text>
                   </TouchableOpacity>
@@ -483,17 +235,21 @@ const AdminReportScreen = () => {
             {/* <Pressable style={styles.btn} title="Print and Share Report" onPress={handlePrintAndShare} /> */}
             <Pressable style={{
               padding: 10,
-              backgroundColor: "#E0E0E0",
-              borderRadius: 25,
+              backgroundColor: "#232323",
+              borderRadius: 5,
               alignSelf: 'center'
             }}
-              onPress={generateReport}><Text>Generate Report</Text></Pressable>
+              onPress={generateReport}><Text style={{  color: "#fff",
+              fontSize: 16,
+              fontWeight:'bold'}}>Generate Report</Text></Pressable>
             <Pressable
               style={{
                 padding: 10,
-                backgroundColor: "#E0E0E0",
-                borderRadius: 25,
-              }} onPress={handlePrintAndShare}><Text>Print and Share Report</Text></Pressable>
+                backgroundColor: "#232323",
+                borderRadius: 5,
+              }} onPress={handlePrintAndShare}><Text style={{  color: "#fff",
+              fontSize: 16,
+              fontWeight:'bold'}}>Print and Share Report</Text></Pressable>
           </View>
           {/* Display report data */}
           {reportData.map((order, index) => (
@@ -501,6 +257,8 @@ const AdminReportScreen = () => {
               key={index}
               style={styles.orderContainer}
             >
+              <Text style={{fontWeight:'bold', textAlign:'center'}}>OrderId:{order._id}</Text>
+              <Text style={{fontWeight:'400', textAlign:'center'}}>-------------------</Text>
               {/* Render the order information */}
               {order.products.map((product, productIndex) => (
                 <View style={styles.productContainer} key={productIndex}>
@@ -524,7 +282,7 @@ const AdminReportScreen = () => {
   )
 }
 
-export default AdminReportScreen
+export default AdminSalesReportScreen
 
 const styles = StyleSheet.create({
   container: {
@@ -566,7 +324,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginBottom: 10,
     gap: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   orderContainer: {
     marginTop: 20,
@@ -578,7 +336,7 @@ const styles = StyleSheet.create({
   productContainer: {
     marginVertical: 10,
     flexDirection: 'row',
-    alignSelf:'stretch'
+    alignSelf: 'stretch',
   },
   productImage: {
     width: 100,

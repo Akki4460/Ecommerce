@@ -586,6 +586,7 @@ const HomeScreen = () => {
             {/* already added addresses */}
             {addresses?.map((item, index) => (
               <Pressable
+                key={index}
                 onPress={() => setSelectedAddress(item)}
                 style={{
                   width: 140,

@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native'
 import { React, useContext, useState, useEffect } from 'react'
-import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { IpType } from '../IpContext';
 import axios from 'axios';

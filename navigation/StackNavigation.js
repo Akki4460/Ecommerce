@@ -30,7 +30,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/native';
-import AdminReportScreen from '../screens/AdminReportScreen';
+import AdminSalesReportScreen from '../screens/AdminSalesReportScreen';
+import AdminUsersReportScreen from '../screens/AdminUsersReportScreen';
 // import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
@@ -81,7 +82,8 @@ function MyDrawer() {
     }}
     >
       <Drawer.Screen name="Dashboard" component={AdminDashboardScreen} options={{ headerStyle: { backgroundColor: '#f0f0f0' }, headerTintColor: 'black' }} />
-      <Drawer.Screen name="Reports" component={AdminReportScreen} options={{ headerStyle: { backgroundColor: '#FFC700' }, headerTintColor: '#fff' }}/>
+      <Drawer.Screen name="Sales" component={AdminSalesReportScreen} options={{ headerStyle: { backgroundColor: '#FFC700' }, headerTintColor: '#fff' }}/>
+      <Drawer.Screen name="Users Data" component={AdminUsersReportScreen} options={{ headerStyle: { backgroundColor: '#FFC700' }, headerTintColor: '#fff' }}/>
       {/* <Drawer.Screen name="Article" component={Article} /> */}
     </Drawer.Navigator>
   );
